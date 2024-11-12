@@ -161,8 +161,6 @@ void SimpleShapeApplication::init() {
 void SimpleShapeApplication::frame() {
     // Binding the VAO will set up all the required vertex attribute arrays.
     OGL_CALL(glBindVertexArray(vao_));
-    OGL_CALL(glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_BYTE, nullptr));
-    OGL_CALL(glBindVertexArray(0));
 
     glm::mat4 P_ = camera() -> Camera::projection();
     glm::mat4 V_ = camera() -> Camera::view();
@@ -170,6 +168,9 @@ void SimpleShapeApplication::frame() {
     OGL_CALL(glNamedBufferSubData(u_trans_buffer_handle_, 0, 16 * sizeof(float), &PVM[0]));
 
     OGL_CALL(glBindBufferBase(GL_UNIFORM_BUFFER, 1, u_trans_buffer_handle_));
+
+    OGL_CALL(glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_BYTE, nullptr));
+    OGL_CALL(glBindVertexArray(0));
 }
 
 void SimpleShapeApplication::framebuffer_resize_callback(int w, int h) {

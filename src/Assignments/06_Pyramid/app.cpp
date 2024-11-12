@@ -117,8 +117,6 @@ void SimpleShapeApplication::init() {
     OGL_CALL(glBindVertexArray(vao_));
     OGL_CALL(glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle));
     OGL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer)); //(GL_UNIFORM_BUFFER didn't work for me)
-    GLuint transform_block_index = glGetUniformBlockIndex(program, "Transformations");
-    OGL_CALL(glUniformBlockBinding(program, transform_block_index, 1));
     OGL_CALL(glBindBufferBase(GL_UNIFORM_BUFFER, 1,transform_buffer));
 
 

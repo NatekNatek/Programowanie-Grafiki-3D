@@ -33,7 +33,7 @@ public:
 
     void framebuffer_resize_callback(int w, int h) override;
 
-    void SimpleShapeApplication::scroll_callback(double xoffset, double yoffset) override;
+    void scroll_callback(double xoffset, double yoffset) override;
 
     void set_camera(Camera* camera) { camera_ = camera; }
 
