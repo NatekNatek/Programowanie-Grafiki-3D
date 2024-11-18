@@ -1,3 +1,5 @@
+# Assignments 53.0/150.0
+
 ## House OK 2.0/2.0
 
 30.10.2024 10:13:55 OK
@@ -28,20 +30,26 @@ Proszę wnieść poprawki podane w poprzednim zadaniu.
 Proszę wnieść poprawki podane w poprzednim zadaniu.
 
 
-## Resize Not OK 0/8.0
+## Resize OK 8.0/8.0
 
 6.11.2024 09:22:18
 W funkcji frame tworzenie przesyłanie do bufora uniform  i jego bindowanie powinno się odbywać przed wywołaniem funkcji glDrawElements. 
 
-## Zoom Not OK 0/10.0
+18.11.2024 16:27:02 OK
+
+## Zoom OK 10.0/10.0
 
 11.11.2024 12:48:44
 Nie kompiluje się. W pliku app.h niepotrzebnie podaje Pani nazwę klasy przed nazwą funkcji `scroll_callback`
-Podobnie jak poprzenio kolejność wywoła ń w funkcji frame jest zła. 
+Podobnie jak poprzenio kolejność wywołań w funkcji frame jest zła. 
 
-## Camera movement Not OK 0/15.0
+12.11.2024 18:51:11 OK
+
+## Camera movement OK 15.0/15.0
 
 11.11.2024 12:53:45
 Podobnie jak poprzenio kolejność wywołań w funkcji frame jest zła. 
+
+18.11.2024 16:27:50 OK
 
 
