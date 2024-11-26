@@ -93,14 +93,17 @@ void SimpleShapeApplication::init() {
     auto pyramid = new xe::Mesh(6 * sizeof(float), vertices.size() * sizeof(float), GL_STATIC_DRAW,
         indices.size() * sizeof(GLubyte), GL_UNSIGNED_BYTE, GL_STATIC_DRAW);
 
+    add_mesh(pyramid);
+
     pyramid -> load_vertices(0, vertices.size() * sizeof(float), vertices.data());
 
-    pyramid-> add_attribute(xe::POSITION, 3, GL_FLOAT, 6 * sizeof(GLfloat));
+    pyramid-> add_attribute(xe::POSITION, 3, GL_FLOAT, 0);
 
     pyramid -> load_indices(0, indices.size() * sizeof(GLubyte), indices.data());
 
-    pyramid-> add_attribute(xe::COLOR_0, 3, GL_FLOAT, 6 * sizeof(GLfloat));
+    pyramid-> add_attribute(xe::COLOR_0, 3, GL_FLOAT, 3 * sizeof(GLfloat));
 
+    pyramid-> add_primitive(0, 18);
 
     /*
      * All the calls to the OpenGL API are "encapsulated" in the OGL_CALL macro for debugging purposes as explained in
