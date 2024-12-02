@@ -1,4 +1,4 @@
-# Assignments 53.0/150.0
+# Assignments 65.0/150.0
 
 ## House OK 2.0/2.0
 
@@ -52,4 +52,8 @@ Podobnie jak poprzenio kolejność wywołań w funkcji frame jest zła.
 
 18.11.2024 16:27:50 OK
 
+
+## Mesh OK 12.0/12.0
+
+2.12.2024 17:10:49 OK
 
