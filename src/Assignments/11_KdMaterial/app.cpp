@@ -21,7 +21,7 @@
 
 #include "../../Engine/KdMaterial.h"
 
-#include "../../Engine/KdMaterial.cpp"
+//#include "../../Engine/KdMaterial.hpp"
 
 void SimpleShapeApplication::init() {
     /*
@@ -33,8 +33,8 @@ void SimpleShapeApplication::init() {
      */
     auto program = xe::utils::create_program(
         {
-                {GL_VERTEX_SHADER,   std::string(PROJECT_DIR) + "Kd_vs.glsl"},
-                {GL_FRAGMENT_SHADER, std::string(PROJECT_DIR) + "Kd_fs.glsl"}
+                {GL_VERTEX_SHADER,   std::string(PROJECT_DIR) + "/../../Engine/shaders/Kd_vs.glsl"},
+                {GL_FRAGMENT_SHADER, std::string(PROJECT_DIR) + "/../../Engine/shaders/Kd_fs.glsl"}
         });
 
 
@@ -131,8 +131,8 @@ void SimpleShapeApplication::init() {
     OGL_CALL(glCreateBuffers(1, &index_buffer));
     OGL_CALL(glNamedBufferData(index_buffer, indices.size() * sizeof(GLubyte), indices.data(), GL_STATIC_DRAW));
 
-   // OGL_CALL(glCreateBuffers(1, &u_trans_buffer_handle_));
-   // OGL_CALL(glNamedBufferData(u_trans_buffer_handle_, 16 * sizeof(float), nullptr, GL_STATIC_DRAW));
+    OGL_CALL(glCreateBuffers(1, &u_trans_buffer_handle_));
+    OGL_CALL(glNamedBufferData(u_trans_buffer_handle_, 16 * sizeof(float), nullptr, GL_STATIC_DRAW));
 
 
 
@@ -177,7 +177,7 @@ void SimpleShapeApplication::init() {
 
     //OGL_CALL(glUseProgram(program));
 
-    glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE); 
     glEnable(GL_DEPTH_TEST);
 }
 

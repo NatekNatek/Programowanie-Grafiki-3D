@@ -8,7 +8,7 @@ namespace xe {
     class KdMaterial : public AbstractMaterial<KdMaterial> {
 
     public:
-        int use_vertex_colors_;
+        int use_vertex_colors_ = 1;
 
         const glm::vec4 Kd_;
 

@@ -9,5 +9,9 @@ layout(std140, binding=0) uniform KdMaterial {
 };
 
 void main() {
-    vFragColor = vertex_color*Kd;
+    if (use_vertex_color) {
+        vFragColor = vec4(vertex_color, 0.0)*Kd;
+    } else {
+        vFragColor = Kd;
+    }
 }

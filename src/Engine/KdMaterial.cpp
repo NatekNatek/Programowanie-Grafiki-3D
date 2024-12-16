@@ -11,7 +11,7 @@ namespace xe {
 	};
 
 	void KdMaterial::bind() const{  
-		glUseProgram(program()); 
+		glUseProgram(program());
 
 		OGL_CALL(glBindBufferBase(GL_UNIFORM_BUFFER, 0, material_uniform_buffer_));
 		OGL_CALL(glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::vec4), &Kd_));

@@ -34,6 +34,8 @@ namespace xe {
     private:
         inline static GLuint program_ = 0u;
         inline static GLuint material_uniform_buffer_ = 0u;
+
+        friend D;
     };
 
 
