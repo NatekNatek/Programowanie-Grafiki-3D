@@ -111,9 +111,18 @@ void SimpleShapeApplication::init() {
      
     xe::KdMaterial::init();
 
-    auto kd_white_material = new xe::KdMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    //auto kd_white_material = new xe::KdMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    auto kd_gray_material = new xe::KdMaterial(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
+    auto kd_red_material = new xe::KdMaterial(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    auto kd_green_material = new xe::KdMaterial(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+    auto kd_blue_material = new xe::KdMaterial(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+    auto kd_yellow_material = new xe::KdMaterial(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
-    pyramid->add_primitive(0, 18, kd_white_material); 
+    pyramid->add_primitive(0, 6, kd_gray_material);
+    pyramid->add_primitive(6, 3, kd_red_material);
+    pyramid->add_primitive(9, 3, kd_green_material);
+    pyramid->add_primitive(12, 3, kd_blue_material);
+    pyramid->add_primitive(15, 3, kd_yellow_material);
 
     /*
      * All the calls to the OpenGL API are "encapsulated" in the OGL_CALL macro for debugging purposes as explained in
