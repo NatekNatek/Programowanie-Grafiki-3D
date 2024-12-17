@@ -57,3 +57,8 @@ Podobnie jak poprzenio kolejność wywołań w funkcji frame jest zła.
 
 2.12.2024 17:10:49 OK
 
+## Kd material Not OK 0/20.0
+
+17.12.2024 12:53:09
+W metodzie `add_primitive` drugi argument powinien być gornym końcem zakresu indeksów dla danej podsiatki, a nie liczbą indeksów,
+
