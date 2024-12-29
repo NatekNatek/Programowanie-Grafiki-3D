@@ -64,7 +64,13 @@ namespace xe {
         OGL_CALL(glBindVertexArray(vao_));
         for (auto i = 0; i < primitives_.size(); i++) {
             primitives_[i].material->bind();
+            auto count = primitives_[i].count();
+            auto start = primitives_[i].start;
+
+            SPDLOG_INFO("Drawing primitive {}: count={}, start={}", i, count, start);
             auto indices = reinterpret_cast<void *>(index_size_ * primitives_[i].start);
+            SPDLOG_INFO("Primitive count: {}", primitives_[i].count());
+
             OGL_CALL(glDrawElements(GL_TRIANGLES, primitives_[i].count(), index_type_, indices));
             primitives_[i].material->unbind();
         }
