@@ -62,3 +62,9 @@ Podobnie jak poprzenio kolejność wywołań w funkcji frame jest zła.
 17.12.2024 12:53:09
 W metodzie `add_primitive` drugi argument powinien być gornym końcem zakresu indeksów dla danej podsiatki, a nie liczbą indeksów,
 
+5.01.2025 19:06:43
+Dalej całkowite zamieszanie w wywołaniach metod add_primitive. Piewszy argumenty powinnym być indeksami do tabl,icy indeksów oznaczającymi, poczatek i koniec zakresu indeksów dla tej podsieci. 
+Ponadto z niewiadomych powodów w niektórych wywołaniach podaje Pani liczbę bajtów, a nie indeks.
+
+
+
