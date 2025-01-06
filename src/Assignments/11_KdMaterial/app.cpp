@@ -107,22 +107,21 @@ void SimpleShapeApplication::init() {
 
     pyramid-> add_attribute(xe::COLOR_0, 3, GL_FLOAT, 3 * sizeof(GLfloat));
 
-    //pyramid-> add_primitive(0, 18); 
      
     xe::KdMaterial::init();
 
-    //auto kd_white_material = new xe::KdMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+   
     auto kd_gray_material = new xe::KdMaterial(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
     auto kd_red_material = new xe::KdMaterial(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
     auto kd_green_material = new xe::KdMaterial(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
     auto kd_blue_material = new xe::KdMaterial(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
     auto kd_yellow_material = new xe::KdMaterial(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
-    pyramid->add_primitive(0, 6, kd_gray_material);
-    pyramid->add_primitive(6, 3, kd_red_material);
-    pyramid->add_primitive(9 * sizeof(GLubyte), 3 * sizeof(GLubyte), kd_green_material);
-    pyramid->add_primitive(12 * sizeof(GLubyte), 3 * sizeof(GLubyte), kd_blue_material);
-    pyramid->add_primitive(15 * sizeof(GLubyte), 3 * sizeof(GLubyte), kd_yellow_material);
+    pyramid->add_primitive(0 * sizeof(GLubyte), 6 * sizeof(GLubyte), kd_gray_material);
+    pyramid->add_primitive(6 * sizeof(GLubyte), 9 * sizeof(GLubyte), kd_red_material);
+    pyramid->add_primitive(9 * sizeof(GLubyte), 12 * sizeof(GLubyte), kd_green_material);
+    pyramid->add_primitive(12 * sizeof(GLubyte), 15 * sizeof(GLubyte), kd_blue_material);
+    pyramid->add_primitive(15 * sizeof(GLubyte), 18 * sizeof(GLubyte), kd_yellow_material);
 
     /*
      * All the calls to the OpenGL API are "encapsulated" in the OGL_CALL macro for debugging purposes as explained in
@@ -158,28 +157,7 @@ void SimpleShapeApplication::init() {
 
 
 
-    /*
-     * The following lines bound the vertex attribute 0 to the currently bound vertex buffer (the one we just created).
-     * Attribute 0 is specified in the vertex shader with the
-     * layout (location = 0) in vec4 a_vertex_position;
-     * directive.
-     */
-     // This specifies that the data for attribute 0 should be read from a vertex buffer
-    //OGL_CALL(glEnableVertexAttribArray(0));
-    // and this specifies the data layout in the buffer.
-    //OGL_CALL(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
-    //    reinterpret_cast<GLvoid*>(0)));
 
-    //OGL_CALL(glEnableVertexAttribArray(5));
-    //OGL_CALL(glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
-    //    reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat))));
-
-    //OGL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
-    //OGL_CALL(glBindVertexArray(0));
-    //end of vao "recording"
-
-    // Setting the background color of the rendering window,
-    // I suggest not using white or black for better debugging.
     OGL_CALL(glClearColor(0.81f, 0.81f, 0.8f, 1.0f));
 
     OGL_CALL(glViewport(0, 0, w, h));
