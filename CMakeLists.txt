@@ -42,7 +42,7 @@ endif ()
 
 include_directories(${GLAD_DIR}/glad/include)
 file(GLOB_RECURSE glad_SOURCES "${GLAD_DIR}/glad/src/*.c")
-add_library(glad OBJECT ${glad_SOURCES})
+add_library(glad OBJECT ${glad_SOURCES} "src/Assignments/12_Textures/app.cpp" "src/Assignments/12_Textures/app.h" "src/Assignments/12_Textures/main.cpp")
 
 # GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
