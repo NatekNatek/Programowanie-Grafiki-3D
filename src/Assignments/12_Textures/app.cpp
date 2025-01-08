@@ -21,6 +21,8 @@
 
 #include "../../Engine/KdMaterial.h"
 
+#include "stb/stb_image.h"
+
 //#include "../../Engine/KdMaterial.hpp"
 
 void SimpleShapeApplication::init() {
@@ -46,38 +48,26 @@ void SimpleShapeApplication::init() {
      
     std::vector<GLfloat> vertices = {
 
-            //base
-            -0.5f, 0.5f, 0.0f, 0.5000, 0.8090, //0
-            -0.5f, -0.5f, 0.0f, 0.1910, 0.5000//1
-            0.5f, -0.5f, 0.0f, 0.8090, 0.5000 //2
-            0.5f, 0.5f, 0.0f, 0.5000, 0.1910 //3
-            //red wall
-           // 0.5f, -0.5f, 0.0f, //4
-            0.0f, 0.0f, 1.0f, 0.0000, 1.0000, //5
-            //0.5f, 0.5f, 0.0f, //6
-            // green wall
-           // -0.5f, -0.5f, 0.0f, //7
-            0.0f, 0.0f, 1.0f, 0.0000, 0.0000,//8
-           // -0.5f, 0.5f, 0.0f, //9
-            //blue wall
-            //0.5f, 0.5f, 0.0f, //10
-            0.0f, 0.0f, 1.0f, 1.0000, 1.0000//11
-           // -0.5f, 0.5f, 0.0f, //12
-            //yellow wall
-            //0.5f, -0.5f, 0.0f, //13
-            0.0f, 0.0f, 1.0f, 1.0000, 0.0000//14
-           // -0.5f, -0.5f, 0.0f, //15
+            // Base
+            -0.5f,  0.5f,  0.0f,  0.5000f, 0.8090f, // 0
+            -0.5f, -0.5f,  0.0f,  0.1910f, 0.5000f, // 1
+             0.5f, -0.5f,  0.0f,  0.8090f, 0.5000f, // 2
+             0.5f,  0.5f,  0.0f,  0.5000f, 0.1910f, // 3
+             0.0f,  0.0f,  1.0f,  1.0000f, 0.000f, // 4 (Red wall tip)
+             0.0f,  0.0f,  1.0f,  0.0000f, 1.0000f, // 5 (Green wall tip)
+             0.0f,  0.0f,  1.0f,  1.0000f, 1.0000f, // 6 (Blue wall tip)
+             0.0f,  0.0f,  1.0f,  0.0000f, 0.0000f, // 7 (Yellow wall tip)
+    };
 
-            };
 
     std::vector<GLubyte> indices = {
-        0, 2, 1,
-        0, 3, 2,
-        0, 1, 5,
-        3, 0, 8,
-        1, 2, 11,
-        2, 3, 14
-    }; 
+        0, 2, 1, // Base
+        3, 2, 0, // Base
+        3, 4, 2, // Red wall
+        1, 5, 0, // Green wall
+        0, 6, 3, // Blue wall
+        2, 7, 1  // Yellow wall
+    };
 
 
     set_camera(new xe::Camera);
@@ -89,12 +79,13 @@ void SimpleShapeApplication::init() {
     float far_ = 20.0;
     glm::mat4 PVM(1.0f);
     M_ = (1.0);
+    GLuint textureID;
     camera() -> xe::Camera::look_at(glm::vec3 (0,0,2), glm::vec3 (0,0,0), glm::vec3 (0,1,0));
     camera() -> xe::Camera::perspective(fov_, aspect_, near_, far_);
     glm::vec3 translation{ 0, 0, 0 };
     M_ = glm::translate(M_, translation);
 
-    auto pyramid = new xe::Mesh(5 * sizeof(double), vertices.size() * sizeof(float), GL_STATIC_DRAW,
+    auto pyramid = new xe::Mesh(5 * sizeof(float), vertices.size() * sizeof(float), GL_STATIC_DRAW,
         indices.size() * sizeof(GLubyte), GL_UNSIGNED_BYTE, GL_STATIC_DRAW);
 
     add_mesh(pyramid);
@@ -105,7 +96,7 @@ void SimpleShapeApplication::init() {
 
     pyramid -> load_indices(0, indices.size() * sizeof(GLubyte), indices.data());
 
-    pyramid->add_attribute(xe::AttributeType::TEXCOORD_0, 2, GL_DOUBLE, 2 * sizeof(GL_DOUBLE);
+    pyramid->add_attribute(xe::TEXCOORD_0, 2, GL_FLOAT, 3 * sizeof(GL_FLOAT));
 
      
     xe::KdMaterial::init();
@@ -117,12 +108,45 @@ void SimpleShapeApplication::init() {
     auto kd_blue_material = new xe::KdMaterial(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
     auto kd_yellow_material = new xe::KdMaterial(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
-    pyramid->add_primitive(0 * sizeof(GLubyte), 6 * sizeof(GLubyte), kd_gray_material);
+ 
+
+   /* pyramid->add_primitive(0 * sizeof(GLubyte), 6 * sizeof(GLubyte), kd_gray_material);
     pyramid->add_primitive(6 * sizeof(GLubyte), 9 * sizeof(GLubyte), kd_red_material);
     pyramid->add_primitive(9 * sizeof(GLubyte), 12 * sizeof(GLubyte), kd_green_material);
     pyramid->add_primitive(12 * sizeof(GLubyte), 15 * sizeof(GLubyte), kd_blue_material);
-    pyramid->add_primitive(15 * sizeof(GLubyte), 18 * sizeof(GLubyte), kd_yellow_material);
+    pyramid->add_primitive(15 * sizeof(GLubyte), 18 * sizeof(GLubyte), kd_yellow_material);*/
 
+    stbi_set_flip_vertically_on_load(true);
+    GLint width, height, channels;
+    auto texture_file = std::string(ROOT_DIR) + "/Models/multicolor.png";
+    auto img = stbi_load(texture_file.c_str(), &width, &height, &channels, 0);
+    if (!img) {
+        std::cerr << "Could not read image from file `" << texture_file << "'\n";
+    }
+    else {
+        std::cout << "Loaded a " << width << "x" << height << " texture with " << channels << " channels\n";
+    }
+
+    glGenTextures(1, &textureID);
+
+    glBindTexture(GL_TEXTURE_2D, textureID);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    GLenum format = (channels == 3) ? GL_RGB : GL_RGBA;
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, img);
+
+    stbi_image_free(img);
+
+
+   
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    pyramid->add_primitive(0, 18, new xe::KdMaterial({ 1.f, 1.f, 1.0f, 1.0f }, false, textureID));
     /*
      * All the calls to the OpenGL API are "encapsulated" in the OGL_CALL macro for debugging purposes as explained in
      * Assignments/DEBUGGING.md. The macro is defined in src/Application/utils.h. If the call to the OpenGL API returns an
