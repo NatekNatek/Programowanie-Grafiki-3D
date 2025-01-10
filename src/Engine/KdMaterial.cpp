@@ -1,4 +1,9 @@
 #include "KdMaterial.h"
+#include "ObjectReader/sMesh.h"
+#include "texture.h"
+#include "texture.cpp"
+#include "utils.h"
+#include "mesh_loader.h"
 
 
 namespace xe {
@@ -15,6 +20,8 @@ namespace xe {
 		if (map_Kd_location_ == -1) {
 			SPDLOG_WARN("Cannot find map_Kd uniform");
 		}
+
+		xe::add_mat_function("KdMaterial", create_from_mtl);
 	};
 
 	void KdMaterial::bind() const{  
@@ -38,5 +45,20 @@ namespace xe {
 			bool use_map_Kd = false;
 			OGL_CALL(glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::vec4) + sizeof(int), sizeof(bool), &use_map_Kd));
 		}
+	}
+
+	Material* create_from_mtl(const mtl_material_t& mat, std::string mtl_dir) {
+		glm::vec4 color = get_color(mat.diffuse);
+		SPDLOG_DEBUG("Adding ColorMaterial {}", glm::to_string(color));
+		auto material = new xe::KdMaterial(color);
+		if (!mat.diffuse_texname.empty()) {
+			auto texture = xe::create_texture(mtl_dir + "/" + mat.diffuse_texname, true);
+			SPDLOG_DEBUG("Adding Texture {} {:1d}", mat.diffuse_texname, texture);
+			if (texture > 0) {
+				material->set_texture(texture);
+			}
+		}
+
+		return material;
 	}
 }

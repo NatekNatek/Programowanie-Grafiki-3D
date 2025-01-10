@@ -27,7 +27,11 @@
 
 #include "../../Engine/texture.cpp"
 
-//#include "../../Engine/KdMaterial.hpp"
+#include "stb/stb_image.h"
+
+#include "../../Engine/texture.h"
+
+#include "../../Engine/texture.cpp"
 
 void SimpleShapeApplication::init() {
     /*
@@ -51,8 +55,9 @@ void SimpleShapeApplication::init() {
 
      
     std::vector<GLfloat> vertices = {
-            -0.5f,  0.5f,  0.0f,  0.1910f, 0.5000f, // 0
-            -0.5f, -0.5f,  0.0f,  0.5000f, 0.1910f, // 1
+
+             -0.5f,  0.5f,  0.0f,  0.1910f, 0.5000f, // 0
+             -0.5f, -0.5f,  0.0f,  0.5000f, 0.1910f, // 1
              0.5f, -0.5f,  0.0f,  0.8090f, 0.5000f, // 2
              0.5f,  0.5f,  0.0f,  0.5000f, 0.8090f, // 3
              0.0f,  0.0f,  1.0f,  0.0000f, 1.0000f, // 4 (Red wall tip)
@@ -113,37 +118,13 @@ void SimpleShapeApplication::init() {
 
  
 
-    stbi_set_flip_vertically_on_load(true);
-    GLint width, height, channels;
-    auto texture_file = std::string(ROOT_DIR) + "/Models/multicolor.png";
-    auto img = stbi_load(texture_file.c_str(), &width, &height, &channels, 0);
-    if (!img) {
-        std::cerr << "Could not read image from file `" << texture_file << "'\n";
-    }
-    else {
-        std::cout << "Loaded a " << width << "x" << height << " texture with " << channels << " channels\n";
-    }
+ 
 
-    glGenTextures(1, &textureID);
-
-    glBindTexture(GL_TEXTURE_2D, textureID);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    GLenum format = (channels == 3) ? GL_RGB : GL_RGBA;
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, img);
-
-    stbi_image_free(img);
-
-
-   
-    glBindTexture(GL_TEXTURE_2D, 0);
+    xe::create_texture(std::string(ROOT_DIR) + "/Models/multicolor.png");
+ 
 
     pyramid->add_primitive(0, 18, new xe::KdMaterial({ 1.f, 1.f, 1.0f, 1.0f }, false, textureID));
+
     /*
      * All the calls to the OpenGL API are "encapsulated" in the OGL_CALL macro for debugging purposes as explained in
      * Assignments/DEBUGGING.md. The macro is defined in src/Application/utils.h. If the call to the OpenGL API returns an
@@ -161,15 +142,14 @@ void SimpleShapeApplication::init() {
     OGL_CALL(glNamedBufferData(index_buffer, indices.size() * sizeof(GLubyte), indices.data(), GL_STATIC_DRAW));
 
     OGL_CALL(glCreateBuffers(1, &u_trans_buffer_handle_));
-    OGL_CALL(glNamedBufferData(u_trans_buffer_handle_, 16 * sizeof(float), nullptr, GL_STATIC_DRAW));
+    OGL_CALL(glNamedBufferData(u_trans_buffer_handle_, 16 * sizeof(float), nullptr, GL_STATIC_DRAW));    
+
 
 
 
     OGL_CALL(glClearColor(0.81f, 0.81f, 0.8f, 1.0f));
 
     OGL_CALL(glViewport(0, 0, w, h));
-
-    //OGL_CALL(glUseProgram(program));
 
     glEnable(GL_CULL_FACE); 
     glEnable(GL_DEPTH_TEST);

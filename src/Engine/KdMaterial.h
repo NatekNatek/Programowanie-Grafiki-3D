@@ -25,5 +25,7 @@ namespace xe {
         void bind() const override;
           
         static void init();
+
+        static Material* create_from_mtl(const mtl_material_t &mat, std::string mtl_dir);
     };
 };
