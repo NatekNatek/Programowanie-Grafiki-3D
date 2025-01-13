@@ -1,4 +1,4 @@
-# Assignments 65.0/150.0
+# Assignments 73.0/150.0
 
 ## House OK 2.0/2.0
 
@@ -18,16 +18,20 @@
 Ale niepotrzebnie woła Pani funkcje `glGetUniformBlockIndex` i  `glUniformBlockBinding`. Wiązanie jest już zrobione w deklaracji layout(std140, binding=x) w szaderach.
 No i w CmakeLists.txt ma Pani błąd w nazwie projektu.
 
-## PVM Not OK 0/5.0
+## PVM OK 5.0/5.0
 
 6.11.2024 09:00:30
 Proszę wnieść poprawki podane w poprzednim zadaniu. 
 
+13.01.2025 10:35:21 OK
 
-## Pyramid Not OK 0/3.0
+
+## Pyramid OK 3.0/3.0
 
 6.11.2024 09:03:17
 Proszę wnieść poprawki podane w poprzednim zadaniu.
+
+13.01.2025 10:36:20 OK
 
 
 ## Resize OK 8.0/8.0
@@ -65,6 +69,10 @@ W metodzie `add_primitive` drugi argument powinien być gornym końcem zakresu i
 5.01.2025 19:06:43
 Dalej całkowite zamieszanie w wywołaniach metod add_primitive. Piewszy argumenty powinnym być indeksami do tabl,icy indeksów oznaczającymi, poczatek i koniec zakresu indeksów dla tej podsieci. 
 Ponadto z niewiadomych powodów w niektórych wywołaniach podaje Pani liczbę bajtów, a nie indeks.
+
+13.01.2025 10:38:21
+Nie kompilje się. W pliku texture.cpp zmienna img jest definiowana dwa razy.
+Caly czas podaje Pani  indeks w bajtach. 
 
 
 
