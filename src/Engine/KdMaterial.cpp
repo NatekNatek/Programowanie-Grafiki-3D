@@ -1,9 +1,7 @@
 #include "KdMaterial.h"
 #include "ObjectReader/sMesh.h"
 #include "texture.h"
-#include "texture.cpp"
 #include "utils.h"
-#include "mesh_loader.h"
 
 
 namespace xe {
@@ -47,7 +45,11 @@ namespace xe {
 		}
 	}
 
-	Material* create_from_mtl(const mtl_material_t& mat, std::string mtl_dir) {
+	void KdMaterial::set_texture(GLint texture) {
+		texture_ = texture;
+	}
+
+	Material* KdMaterial::create_from_mtl(const mtl_material_t& mat, std::string mtl_dir) {
 		glm::vec4 color = get_color(mat.diffuse);
 		SPDLOG_DEBUG("Adding ColorMaterial {}", glm::to_string(color));
 		auto material = new xe::KdMaterial(color);

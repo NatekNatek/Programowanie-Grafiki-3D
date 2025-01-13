@@ -22,8 +22,6 @@ namespace xe {
         else {
             std::cout << "Loaded a " << width << "x" << height << " texture with " << channels << " channels\n";
         }
-        
-        auto img = stbi_load(texture_file.c_str(), &width, &height, &channels, 0);
 
         glGenTextures(1, &textureID);
 

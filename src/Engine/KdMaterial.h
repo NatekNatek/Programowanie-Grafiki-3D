@@ -2,6 +2,7 @@
 
 #include "AbstractMaterial.h"
 
+#include "mesh_loader.h"
 
 
 namespace xe {
@@ -25,6 +26,8 @@ namespace xe {
         void bind() const override;
           
         static void init();
+
+        void set_texture(GLint texture);
 
         static Material* create_from_mtl(const mtl_material_t &mat, std::string mtl_dir);
     };

@@ -117,11 +117,11 @@ void SimpleShapeApplication::init() {
     auto kd_blue_material = new xe::KdMaterial(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
     auto kd_yellow_material = new xe::KdMaterial(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
-    pyramid->add_primitive(0 * sizeof(GLubyte), 6 * sizeof(GLubyte), kd_gray_material);
-    pyramid->add_primitive(6 * sizeof(GLubyte), 9 * sizeof(GLubyte), kd_red_material);
-    pyramid->add_primitive(9 * sizeof(GLubyte), 12 * sizeof(GLubyte), kd_green_material);
-    pyramid->add_primitive(12 * sizeof(GLubyte), 15 * sizeof(GLubyte), kd_blue_material);
-    pyramid->add_primitive(15 * sizeof(GLubyte), 18 * sizeof(GLubyte), kd_yellow_material);
+    pyramid->add_primitive(0, 6, kd_gray_material);
+    pyramid->add_primitive(6, 9, kd_red_material);
+    pyramid->add_primitive(9, 12, kd_green_material);
+    pyramid->add_primitive(12, 15, kd_blue_material);
+    pyramid->add_primitive(15, 18, kd_yellow_material);
 
     /*
      * All the calls to the OpenGL API are "encapsulated" in the OGL_CALL macro for debugging purposes as explained in

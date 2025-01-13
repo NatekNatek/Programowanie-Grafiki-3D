@@ -25,13 +25,7 @@
 
 #include "../../Engine/texture.h"
 
-#include "../../Engine/texture.cpp"
-
 #include "stb/stb_image.h"
-
-#include "../../Engine/texture.h"
-
-#include "../../Engine/texture.cpp"
 
 void SimpleShapeApplication::init() {
     /*
@@ -86,44 +80,15 @@ void SimpleShapeApplication::init() {
     float far_ = 20.0;
     glm::mat4 PVM(1.0f);
     M_ = (1.0);
-    GLuint textureID;
     camera() -> xe::Camera::look_at(glm::vec3 (0,0,2), glm::vec3 (0,0,0), glm::vec3 (0,1,0));
     camera() -> xe::Camera::perspective(fov_, aspect_, near_, far_);
     glm::vec3 translation{ 0, 0, 0 };
     M_ = glm::translate(M_, translation);
 
-    auto pyramid = new xe::Mesh(5 * sizeof(float), vertices.size() * sizeof(float), GL_STATIC_DRAW,
-        indices.size() * sizeof(GLubyte), GL_UNSIGNED_BYTE, GL_STATIC_DRAW);
 
+    auto pyramid = xe::load_mesh_from_obj(std::string(ROOT_DIR) + "/Models/pyramid.obj", std::string(ROOT_DIR) + "/Models");
     add_mesh(pyramid);
-
-    pyramid -> load_vertices(0, vertices.size() * sizeof(float), vertices.data());
-
-    pyramid-> add_attribute(xe::POSITION, 3, GL_FLOAT, 0);
-
-    pyramid -> load_indices(0, indices.size() * sizeof(GLubyte), indices.data());
-
-    pyramid->add_attribute(xe::TEXCOORD_0, 2, GL_FLOAT, 3 * sizeof(GL_FLOAT));
-
-     
-    xe::KdMaterial::init();
-
-
-   
-    auto kd_gray_material = new xe::KdMaterial(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
-    auto kd_red_material = new xe::KdMaterial(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-    auto kd_green_material = new xe::KdMaterial(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-    auto kd_blue_material = new xe::KdMaterial(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-    auto kd_yellow_material = new xe::KdMaterial(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
-
  
-
- 
-
-    xe::create_texture(std::string(ROOT_DIR) + "/Models/multicolor.png");
- 
-
-    pyramid->add_primitive(0, 18, new xe::KdMaterial({ 1.f, 1.f, 1.0f, 1.0f }, false, textureID));
 
     /*
      * All the calls to the OpenGL API are "encapsulated" in the OGL_CALL macro for debugging purposes as explained in
@@ -141,8 +106,8 @@ void SimpleShapeApplication::init() {
     OGL_CALL(glCreateBuffers(1, &index_buffer));
     OGL_CALL(glNamedBufferData(index_buffer, indices.size() * sizeof(GLubyte), indices.data(), GL_STATIC_DRAW));
 
-    OGL_CALL(glCreateBuffers(1, &u_trans_buffer_handle_));
-    OGL_CALL(glNamedBufferData(u_trans_buffer_handle_, 16 * sizeof(float), nullptr, GL_STATIC_DRAW));    
+   /* OGL_CALL(glCreateBuffers(1, &u_trans_buffer_handle_));
+    OGL_CALL(glNamedBufferData(u_trans_buffer_handle_, 16 * sizeof(float), nullptr, GL_STATIC_DRAW)); */
 
 
 
