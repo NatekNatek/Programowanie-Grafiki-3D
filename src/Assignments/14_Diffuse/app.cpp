@@ -27,6 +27,8 @@
 
 #include "stb/stb_image.h"
 
+#include "../../Engine/BlinnPhongMaterial.h"
+
 void SimpleShapeApplication::init() {
     /*
      * A utility function that reads the shaders' source files, compiles them and creates the program object,
@@ -70,6 +72,7 @@ void SimpleShapeApplication::init() {
         2, 7, 1  // Yellow wall
     };
 
+    xe::BlinnPhongMaterial::init();
 
     set_camera(new xe::Camera);
     set_controler(new xe::CameraController(camera()));
@@ -79,15 +82,16 @@ void SimpleShapeApplication::init() {
     float near_ = 0.1;
     float far_ = 20.0;
     glm::mat4 PVM(1.0f);
+    glm::mat4 VM(1.0f);
     M_ = (1.0);
-    camera() -> xe::Camera::look_at(glm::vec3 (0,0,2), glm::vec3 (0,0,0), glm::vec3 (0,1,0));
+    camera() -> xe::Camera::look_at(glm::vec3 (0,0,3), glm::vec3 (0,0,0), glm::vec3 (0,1,0));
     camera() -> xe::Camera::perspective(fov_, aspect_, near_, far_);
     glm::vec3 translation{ 0, 0, 0 };
     M_ = glm::translate(M_, translation);
 
 
-    auto pyramid = xe::load_mesh_from_obj("/Models/pyramid.obj", std::string(ROOT_DIR) + "/Models");
-    add_mesh(pyramid);
+    auto square = xe::load_mesh_from_obj("/Models/square.obj", "../../Models");
+    add_mesh(square);
  
 
     /*
@@ -106,8 +110,14 @@ void SimpleShapeApplication::init() {
     OGL_CALL(glCreateBuffers(1, &index_buffer));
     OGL_CALL(glNamedBufferData(index_buffer, indices.size() * sizeof(GLubyte), indices.data(), GL_STATIC_DRAW));
 
+    GLuint u_trans_buffer_handle_;
     OGL_CALL(glCreateBuffers(1, &u_trans_buffer_handle_));
-    OGL_CALL(glNamedBufferData(u_trans_buffer_handle_, 16 * sizeof(float), nullptr, GL_STATIC_DRAW));
+    OGL_CALL(glNamedBufferData(u_trans_buffer_handle_, 16 * sizeof(float) * 3, nullptr, GL_STATIC_DRAW));
+
+    GLuint u_light_buffer_handle_;
+    OGL_CALL(glCreateBuffers(1, &u_light_buffer_handle_));
+    OGL_CALL(glNamedBufferData(u_light_buffer_handle_, 3 * sizeof(float), nullptr, GL_STATIC_DRAW));
+
 
 
 
@@ -115,9 +125,10 @@ void SimpleShapeApplication::init() {
     OGL_CALL(glClearColor(0.81f, 0.81f, 0.8f, 1.0f));
 
     OGL_CALL(glViewport(0, 0, w, h));
-
-    glEnable(GL_CULL_FACE); 
+ 
     glEnable(GL_DEPTH_TEST);
+
+
 }
 
 //This functions is called every frame and does the actual rendering.
@@ -125,10 +136,33 @@ void SimpleShapeApplication::frame() {
 
     glm::mat4 P_ = camera() -> xe::Camera::projection();
     glm::mat4 V_ = camera() -> xe::Camera::view();
-    glm::mat4 PVM = P_ * V_ * M_;
+    glm::mat4 VM = glm::mat4(1.0f);
+    auto R = glm::mat3(VM);
+    auto VM_Normal = glm::mat3(glm::cross(R[1], R[2]), glm::cross(R[2], R[0]), glm::cross(R[0], R[1]));
+    glm::vec3 normal = glm::normalize(VM_Normal * normal);
+    glm::mat4 PVM = P_ * VM * M_;
+
+    xe::PointLight white_light(glm::vec3(0, 0, 1), glm::vec3(0, 0, 0), 1.0, 0.1);
+
     OGL_CALL(glNamedBufferSubData(u_trans_buffer_handle_, 0, 16 * sizeof(float), &PVM[0]));
 
+    OGL_CALL(glNamedBufferSubData(u_trans_buffer_handle_, 16 * sizeof(float) + xe::MAX_POINT_LIGHTS * sizeof(xe::PointLight), 16 * sizeof(float), &VM[0]));
+
+    GLint num_lights = static_cast<GLint>(lights_.size());
+    OGL_CALL(glNamedBufferSubData(u_light_buffer_handle_, xe::MAX_POINT_LIGHTS * sizeof(xe::PointLight), sizeof(GLint), &num_lights));
+    
+    glm::vec3 ambient(0.25f, 0.25f, 0.25f);
+
+    OGL_CALL(glNamedBufferSubData(u_light_buffer_handle_, 16 * sizeof(float), 3 * sizeof(float), &ambient));
+
+    std::vector<xe::PointLight> transformed_lights;
+    for (const auto& light : lights_) {
+        xe::PointLight transformed_light = transform(light, V_); 
+        transformed_lights.push_back(transformed_light);
+    }
+
     OGL_CALL(glBindBufferBase(GL_UNIFORM_BUFFER, 1, u_trans_buffer_handle_));
+    OGL_CALL(glBindBufferBase(GL_UNIFORM_BUFFER, 3, u_light_buffer_handle_));
 
     for (auto m : meshes_)
         m->draw();
