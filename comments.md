@@ -74,5 +74,16 @@ Ponadto z niewiadomych powodów w niektórych wywołaniach podaje Pani liczbę b
 Nie kompilje się. W pliku texture.cpp zmienna img jest definiowana dwa razy.
 Caly czas podaje Pani  indeks w bajtach. 
 
+20.01.2025 16:13:49
+Niestety nie kompiluje się BlinnPhongMaterial więc nie kompiluje się Engine i nic nie działa :( 
+
+
+
+## Textures Missing 0/15.0
+
+
+
+## OBJReader Missing 0/5.0
+
 
 
