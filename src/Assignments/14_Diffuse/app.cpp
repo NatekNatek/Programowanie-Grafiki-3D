@@ -83,14 +83,14 @@ void SimpleShapeApplication::init() {
     float far_ = 20.0;
     glm::mat4 PVM(1.0f);
     glm::mat4 VM(1.0f);
-    M_ = (1.0);
+    M_ = (1.0); 
     camera() -> xe::Camera::look_at(glm::vec3 (0,0,3), glm::vec3 (0,0,0), glm::vec3 (0,1,0));
     camera() -> xe::Camera::perspective(fov_, aspect_, near_, far_);
     glm::vec3 translation{ 0, 0, 0 };
     M_ = glm::translate(M_, translation);
 
 
-    auto square = xe::load_mesh_from_obj("/Models/square.obj", "../../Models");
+    auto square = xe::load_mesh_from_obj(std::string(ROOT_DIR) +"/Models/square.obj", std::string(ROOT_DIR) + "/Models");
     add_mesh(square);
  
 

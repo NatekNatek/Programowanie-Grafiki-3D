@@ -19,7 +19,7 @@ namespace xe {
 			SPDLOG_WARN("Cannot find map_Kd uniform");
 		}
 
-		xe::add_mat_function("KdMaterial", create_from_mtl);
+		xe::add_mat_function("KdMaterial", KdMaterial::create_from_mtl);
 	};
 
 	void KdMaterial::bind() const{  
@@ -49,7 +49,7 @@ namespace xe {
 		texture_ = texture;
 	}
 
-	Material* KdMaterial::create_from_mtl(const mtl_material_t &mat, std::string mtl_dir) {
+	Material* KdMaterial::create_from_mtl(const mtl_material_t& mat, std::string mtl_dir) {
 		glm::vec4 color = get_color(mat.diffuse);
 		SPDLOG_DEBUG("Adding ColorMaterial {}", glm::to_string(color));
 		auto material = new xe::KdMaterial(color);

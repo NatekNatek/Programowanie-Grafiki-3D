@@ -20,8 +20,8 @@ void main() {
     gl_Position =  PVM * a_vertex_position;
     vertex_color = a_vertex_color;  
     texture_coordinates = a_texture_coordinates;
-    vertex_position_vs = (ModelView * a_vertex_position).xyz;
+    vertex_position_vs = (VM * a_vertex_position).xyz;
     vec4 a_vertex_position_vs = VM * a_vertex_position;
     vertex_position_vs = a_vertex_position_vs.xyz/a_vertex_position_vs.w;
-    vertex_normal_vs = normalize(VM_normal * a_vertex_normal);
+    vertex_normal_vs = normalize(VM_Normal * a_vertex_normal);
 }

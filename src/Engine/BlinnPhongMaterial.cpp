@@ -50,9 +50,9 @@ namespace xe {
 
 	Material* BlinnPhongMaterial::create_from_mtl(const mtl_material_t& mat, std::string mtl_dir) {
 		glm::vec4 color = get_color(mat.diffuse);
-		Ka_ = mat.ambiet;
 		SPDLOG_DEBUG("Adding ColorMaterial {}", glm::to_string(color));
 		auto material = new xe::BlinnPhongMaterial(color);
+		material->Ka_ = glm::vec4(mat.ambient[0], mat.ambient[1], mat.ambient[2], 0.0);
 		if (!mat.diffuse_texname.empty()) {
 			auto texture = xe::create_texture(mtl_dir + "/" + mat.diffuse_texname, true);
 			SPDLOG_DEBUG("Adding Texture {} {:1d}", mat.diffuse_texname, texture);

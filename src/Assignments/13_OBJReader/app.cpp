@@ -86,7 +86,7 @@ void SimpleShapeApplication::init() {
     M_ = glm::translate(M_, translation);
 
 
-    auto pyramid = xe::load_mesh_from_obj("/Models/pyramid.obj", std::string(ROOT_DIR) + "/Models");
+    auto pyramid = xe::load_mesh_from_obj(std::string(ROOT_DIR) + "/Models/pyramid.obj", std::string(ROOT_DIR) + "/Models");
     add_mesh(pyramid);
  
 
