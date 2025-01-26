@@ -1,4 +1,4 @@
-# Assignments 73.0/150.0
+# Assignments 91.0/150.0
 
 ## House OK 2.0/2.0
 
@@ -61,7 +61,7 @@ Podobnie jak poprzenio kolejność wywołań w funkcji frame jest zła.
 
 2.12.2024 17:10:49 OK
 
-## Kd material Not OK 0/20.0
+## Kd material OK 18.0/20.0
 
 17.12.2024 12:53:09
 W metodzie `add_primitive` drugi argument powinien być gornym końcem zakresu indeksów dla danej podsiatki, a nie liczbą indeksów,
@@ -77,13 +77,20 @@ Caly czas podaje Pani  indeks w bajtach.
 20.01.2025 16:13:49
 Niestety nie kompiluje się BlinnPhongMaterial więc nie kompiluje się Engine i nic nie działa :( 
 
-
-
-## Textures Missing 0/15.0
+25.01.2025 11:21:26 OK
 
 
 
-## OBJReader Missing 0/5.0
+## Textures Not OK 0/15.0
 
+25.01.2025 11:23:15
+Biała piramida. 
+Żle Pani przesyła zmienna use_mak_Kd. Powinnan być przesyłana jako int. Ponadto w przypadky gdy texture_>0 nie przypisuje Pani jej żadnej wartości. 
 
+## OBJReader Not OK 0/5.0
+
+25.01.2025 11:23:59
+segmentation fault. 
+Brakuje wywołania funkcji KdMaterial::init()
+Nie wczytuje się tekstura, ponieważ w funckji create_texture niepotrzebnie jeszcze raz dodaje Pani ROOT_DIR do ścieżki. 
 
