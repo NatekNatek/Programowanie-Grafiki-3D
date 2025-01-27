@@ -94,3 +94,8 @@ segmentation fault.
 Brakuje wywołania funkcji KdMaterial::init()
 Nie wczytuje się tekstura, ponieważ w funckji create_texture niepotrzebnie jeszcze raz dodaje Pani ROOT_DIR do ścieżki. 
 
+## Diffuse Not OK 0/25.0
+
+27.01.2025 17:22:12
+Zmienne w których przechowuje Pani bufory w metodzie init, przesłaniaja pola klasy o tych samych nazwach. 
+
