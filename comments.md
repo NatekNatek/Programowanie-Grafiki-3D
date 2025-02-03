@@ -99,3 +99,7 @@ Nie wczytuje się tekstura, ponieważ w funckji create_texture niepotrzebnie jes
 27.01.2025 17:22:12
 Zmienne w których przechowuje Pani bufory w metodzie init, przesłaniaja pola klasy o tych samych nazwach. 
 
+## Specular Missing 0/12.0
+
+
+
